@@ -2,17 +2,13 @@ package com.example.hybridapi.dto;
 
 import com.example.hybridapi.model.BusinessCategory;
 
-public record ProviderResponse(
+public record ProviderMapMarkerResponse(
         Long id,
         String name,
         BusinessCategory category,
         String city,
         String addressLine,
         Double latitude,
-        Double longitude,
-        String description,
-        boolean supportsGoods,
-        boolean supportsServices,
-        boolean active
+        Double longitude
 ) {
 }

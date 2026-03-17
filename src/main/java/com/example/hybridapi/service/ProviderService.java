@@ -27,6 +27,13 @@ public class ProviderService {
         return providerRepository.findAll();
     }
 
+    public List<Provider> searchProviders(String query) {
+        if (query == null || query.isBlank()) {
+            return providerRepository.findAll();
+        }
+        return providerRepository.searchByText(query);
+    }
+
     public Provider getProvider(Long id) {
         return providerRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Provider not found"));
@@ -48,6 +55,9 @@ public class ProviderService {
         provider.setName(request.name());
         provider.setCategory(request.category());
         provider.setCity(request.city());
+        provider.setAddressLine(request.addressLine());
+        provider.setLatitude(request.latitude());
+        provider.setLongitude(request.longitude());
         provider.setDescription(request.description());
         provider.setSupportsGoods(request.supportsGoods());
         provider.setSupportsServices(request.supportsServices());

@@ -25,15 +25,18 @@ public class TransactionService {
     private final CustomerTransactionRepository transactionRepository;
     private final OfferingService offeringService;
     private final OfferingRepository offeringRepository;
+    private final TransactionEmailService transactionEmailService;
 
     public TransactionService(
             CustomerTransactionRepository transactionRepository,
             OfferingService offeringService,
-            OfferingRepository offeringRepository
+            OfferingRepository offeringRepository,
+            TransactionEmailService transactionEmailService
     ) {
         this.transactionRepository = transactionRepository;
         this.offeringService = offeringService;
         this.offeringRepository = offeringRepository;
+        this.transactionEmailService = transactionEmailService;
     }
 
     public List<CustomerTransaction> getTransactions() {
@@ -89,7 +92,9 @@ public class TransactionService {
 
         transaction.setTotalAmount(totalAmount);
         transaction.setTransactionType(resolveType(hasGoods, hasServices));
-        return transactionRepository.save(transaction);
+        CustomerTransaction savedTransaction = transactionRepository.save(transaction);
+        transactionEmailService.sendConfirmationIfConfigured(savedTransaction);
+        return savedTransaction;
     }
 
     private TransactionType resolveType(boolean hasGoods, boolean hasServices) {

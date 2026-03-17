@@ -27,6 +27,9 @@ public class DataLoader {
                     "CityCare Hospital",
                     BusinessCategory.HOSPITAL,
                     "Johannesburg",
+                    "12 Wellness Avenue, Rosebank",
+                    -26.145300,
+                    28.041300,
                     "Hospital with consultation services and a pharmacy.",
                     true,
                     true
@@ -35,6 +38,9 @@ public class DataLoader {
                     "Sunset Grand Hotel",
                     BusinessCategory.HOTEL,
                     "Cape Town",
+                    "88 Beach Road, Sea Point",
+                    -33.912200,
+                    18.389700,
                     "Hotel with room bookings, airport pickup, and gift shop items.",
                     true,
                     true
@@ -43,6 +49,9 @@ public class DataLoader {
                     "DriveNow Rentals",
                     BusinessCategory.CAR_RENTAL,
                     "Durban",
+                    "5 Lagoon Drive, Umhlanga",
+                    -29.726700,
+                    31.084700,
                     "Car hire with optional accessories and support services.",
                     true,
                     true
@@ -65,6 +74,9 @@ public class DataLoader {
             String name,
             BusinessCategory category,
             String city,
+            String addressLine,
+            double latitude,
+            double longitude,
             String description,
             boolean supportsGoods,
             boolean supportsServices
@@ -73,6 +85,9 @@ public class DataLoader {
         provider.setName(name);
         provider.setCategory(category);
         provider.setCity(city);
+        provider.setAddressLine(addressLine);
+        provider.setLatitude(latitude);
+        provider.setLongitude(longitude);
         provider.setDescription(description);
         provider.setSupportsGoods(supportsGoods);
         provider.setSupportsServices(supportsServices);

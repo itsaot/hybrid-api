@@ -28,6 +28,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/providers/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/offerings").hasAnyRole("ADMIN", "PROVIDER_MANAGER")
                         .requestMatchers(HttpMethod.POST, "/api/transactions").hasAnyRole("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.POST, "/api/email/test").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
 

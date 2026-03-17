@@ -10,6 +10,7 @@ A Spring Boot REST API for businesses that sell both services and goods, such as
 - Protect endpoints with Spring Security using HTTP Basic authentication and role-based access.
 - Publish interactive API docs with Swagger UI / OpenAPI.
 - Support both in-memory H2 and PostgreSQL through Spring profiles.
+- Include test-friendly email, weather, and maps integrations driven by `.env`.
 - Seeded demo data with an in-memory H2 database.
 
 ## Run
@@ -40,6 +41,24 @@ PAYMENT_BASE_URL=https://api.stripe.com
 PAYMENT_PUBLIC_KEY=pk_test_replace_me
 PAYMENT_SECRET_KEY=sk_test_replace_me
 PAYMENT_WEBHOOK_URL=https://your-domain.example.com/api/payments/webhook
+
+EMAIL_PROVIDER=resend
+EMAIL_BASE_URL=https://api.resend.com
+EMAIL_API_KEY=re_test_replace_me
+EMAIL_FROM_ADDRESS=onboarding@resend.dev
+EMAIL_ENABLED=false
+
+WEATHER_PROVIDER=open-meteo
+WEATHER_BASE_URL=https://api.open-meteo.com
+WEATHER_API_KEY=
+WEATHER_ENABLED=true
+
+MAPS_PROVIDER=openstreetmap
+MAPS_GEOCODE_BASE_URL=https://nominatim.openstreetmap.org
+MAPS_TILES_BASE_URL=https://tile.openstreetmap.org/{z}/{x}/{y}.png
+MAPS_ROUTE_BASE_URL=https://router.project-osrm.org
+MAPS_API_KEY=
+MAPS_ENABLED=true
 ```
 
 Notes:
@@ -69,6 +88,9 @@ Role access:
 - Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 - OpenAPI JSON: `http://localhost:8080/v3/api-docs`
 - Payment config preview: `GET /api/payments/config`
+- Email config preview: `GET /api/email/config`
+- Weather config preview: `GET /api/integrations/weather/config`
+- Maps config preview: `GET /api/integrations/maps/config`
 
 ## Useful endpoints
 
@@ -143,6 +165,36 @@ The app now reads payment settings from `.env`. Right now this is configuration-
 - `PAYMENT_WEBHOOK_URL`
 
 You can verify what is loaded, without exposing the full secret, by calling `GET /api/payments/config` as an authenticated user.
+
+## Email, Weather, And Maps
+
+The app is now prewired for simple test providers:
+
+- Email: Resend
+- Weather: Open-Meteo
+- Maps: OpenStreetMap tiles with Nominatim geocoding
+
+These are all controlled through `.env`, so you can swap providers later without changing your controllers.
+
+Useful endpoints:
+
+- `GET /api/email/config`
+- `POST /api/email/test`
+- `GET /api/integrations/weather/current?latitude=-26.2041&longitude=28.0473`
+- `GET /api/integrations/maps/search?query=Johannesburg`
+- `GET /api/integrations/maps/config`
+- `GET /api/integrations/maps/providers`
+- `GET /api/integrations/maps/route?startLatitude=-26.2041&startLongitude=28.0473&endLatitude=-26.1453&endLongitude=28.0413`
+- `GET /api/providers/search?query=Rosebank`
+
+Notes:
+
+- `POST /api/email/test` requires the `admin` user and a valid `EMAIL_API_KEY`.
+- Weather and maps work out of the box for testing with the default Open-Meteo and OpenStreetMap settings.
+- Maps integration returns search results and also exposes a tile URL template for a frontend map library.
+- New transactions will attempt to send a confirmation email when `EMAIL_ENABLED=true` and the email provider is fully configured.
+- `GET /api/integrations/maps/providers` is useful for React map markers because it returns provider IDs, names, categories, and coordinates directly.
+- `GET /api/integrations/maps/route` returns simple route geometry points a frontend map can draw as a polyline.
 
 ## Example transaction payload
 

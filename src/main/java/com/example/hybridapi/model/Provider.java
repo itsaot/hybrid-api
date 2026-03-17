@@ -27,6 +27,15 @@ public class Provider {
     @Column(nullable = false)
     private String city;
 
+    @Column(length = 500)
+    private String addressLine;
+
+    @Column
+    private Double latitude;
+
+    @Column
+    private Double longitude;
+
     @Column(length = 1000)
     private String description;
 
@@ -73,6 +82,30 @@ public class Provider {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getAddressLine() {
+        return addressLine;
+    }
+
+    public void setAddressLine(String addressLine) {
+        this.addressLine = addressLine;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public void setDescription(String description) {

@@ -40,6 +40,13 @@ public class ProviderController {
                 .toList();
     }
 
+    @GetMapping("/search")
+    public List<ProviderResponse> searchProviders(@RequestParam String query) {
+        return providerService.searchProviders(query).stream()
+                .map(apiMapper::toResponse)
+                .toList();
+    }
+
     @GetMapping("/{id}")
     public ProviderResponse getProvider(@PathVariable Long id) {
         return apiMapper.toResponse(providerService.getProvider(id));
